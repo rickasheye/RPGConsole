@@ -1,6 +1,4 @@
 ﻿using DSharpPlus.Entities;
-using RPGConsole.Commands.Discord.Debug;
-using RPGConsole.Commands.Discord.Debug.GameTings;
 using RPGConsole.Commands.General;
 using RPGConsole.Commands.General.ConsoleExclusive;
 using System;
@@ -22,18 +20,6 @@ namespace RPGConsole.Commands
         public CommandRunManager()
         {
             //load up the commands
-
-            //init debug commands
-            emptyCommands.Add(new TimeCommand());
-            emptyCommands.Add(new ManualSaveServerCommand());
-            emptyCommands.Add(new OperateSilentCommand());
-            emptyCommands.Add(new PingCommand());
-            emptyCommands.Add(new PlayerSaveCommand());
-            emptyCommands.Add(new ServerSavedCommand());
-            emptyCommands.Add(new TemporaryDisabledCommand());
-
-            //debug game commands
-            emptyCommands.Add(new moveplayeremotely());
 
             //Normal commands
             emptyCommands.Add(new ClearConsole());

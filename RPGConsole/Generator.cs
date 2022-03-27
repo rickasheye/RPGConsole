@@ -1,5 +1,4 @@
-﻿using Raylib_cs;
-using RPGConsole.InventoryBlock;
+﻿using RPGConsole.InventoryBlock;
 using System;
 using System.Collections.Generic;
 

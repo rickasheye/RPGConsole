@@ -1,7 +1,4 @@
-﻿using Raylib_cs;
-using RPGConsole.EngineStuff;
-using RPGConsole.Graphical.MenuItems;
-using RPGConsole.Graphical.MenuItems.KeyboardOnlyItems;
+﻿using RPGConsole.EngineStuff;
 using RPGConsole.InventoryItems;
 using System;
 using System.Threading;
@@ -15,10 +12,7 @@ namespace RPGConsole.GameEnemies
 
         public Enemy(string name, Vector2 position, Player player) : base(name, position)
         {
-            if (Program.cmdMode) { StartSequence(player); } else
-            {
-                StartGUISequence();
-            }
+            if (Program.cmdMode) { StartSequence(player); }
         }
 
         public void StartSequence(Player player)
@@ -115,88 +109,6 @@ namespace RPGConsole.GameEnemies
                 {
                     playerReady = false;
                 }
-            }
-        }
-
-        public void StartGUISequence()
-        {
-            Program.loader.currentScene.guiOptions.Clear();
-            Program.loader.currentScene.guiOptions.Add(new Text("An enemy has decided to attack you!", new Vector2(10, 10), 20, Color.BLACK));
-            Program.loader.currentScene.guiOptions.Add(new EnemyGUIButton(this, "Attack the " + name, new Vector2(20, 20), new Vector2(10, 40)));
-            Program.loader.currentScene.guiOptions.Add(new EnemyRunGUIButton(this, "Run from the " + name, new Vector2(20, 20), new Vector2(10, 70)));
-            EmptyContainer container = new EmptyContainer(new Vector2(10, 10), new Vector2(10, 10));
-            container.children.AddRange(Program.loader.currentScene.guiOptions);
-            Program.loader.currentScene.guiOptions.Add(container);
-        }
-    }
-
-    public class EnemyGUIButton : KeyboardAdjustedButton
-    {
-        public Enemy enemyConcern;
-
-        public EnemyGUIButton(Enemy enemyConcern, string name, Vector2 size, Vector2 position):base(name, size, position)
-        {
-            this.enemyConcern = enemyConcern;
-        }
-
-        public override void Triggerable()
-        {
-            base.Triggerable();
-            if (Program.player.equipItem.type == itemTYPE.WEAPON)
-            {
-                //add this onto the pressure.
-                InventoryItemWeapon weapon = (InventoryItemWeapon)Program.player.equipItem;
-                if (weapon == null)
-                {
-                    Program.unit.AddConsoleItem(new Graphical.ConsoleItem(3, "program error: unable to convert to weapon!!!"));
-                }
-                else
-                {
-                    Random randLevel = new Random();
-                    int randdmg = randLevel.Next(weapon.damageLevel);
-                    enemyConcern.health -= randdmg;
-                    Program.unit.AddConsoleItem(new Graphical.ConsoleItem(3, "Your weapon called " + weapon.name + " has delt " + randdmg + " to the enemy!"));
-                    weapon.UpgradeWeapon(Program.player);
-                }
-            }
-        }
-    }
-
-    public class EnemyRunGUIButton : KeyboardAdjustedButton
-    {
-        public Enemy enemyConcern;
-
-        public EnemyRunGUIButton(Enemy enemyConcern, string name, Vector2 size, Vector2 position):base(name, size, position) { this.enemyConcern = enemyConcern; }
-
-        public override void Triggerable()
-        {
-            base.Triggerable();
-            Random rand = new Random();
-            int randomValue = rand.Next(10);
-            if(randomValue == 5)
-            {
-                //run
-                Program.unit.AddConsoleItem("you have sucessfully ran from the enemy", 3);
-                Program.loader.currentScene.guiOptions.Add(new Text("You have sucessfully escaped from the enemy!", new Vector2(10, 10), 20, Color.BLACK));
-                Thread.Sleep(300);
-                if (enemyConcern.playerStuck == true)
-                {
-                    enemyConcern.playerStuck = false;
-                    Program.loader.currentScene.guiOptions.Clear();
-                }
-                else
-                {
-                    Program.unit.AddConsoleItem("thats unfortunate? the player is stuck but the boolean has been set to false!", 3);
-                }
-            }
-            else
-            {
-                //unfortunately you have not escaped!
-                Program.unit.AddConsoleItem("The player has unfortunately not escaped!", 3);
-                Program.loader.currentScene.guiOptions.Clear();
-                Program.loader.currentScene.guiOptions.Add(new Text("Unfortunately you have not escaped from the monster!", new Vector2(10, 10), 20, Color.BLACK));
-                Thread.Sleep(300);
-                enemyConcern.StartGUISequence();
             }
         }
     }

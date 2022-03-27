@@ -1,7 +1,4 @@
-﻿using Raylib_cs;
-using RPGConsole.Graphical.MenuItems;
-using RPGConsole.Graphical.MenuItems.KeyboardOnlyItems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -12,7 +9,6 @@ namespace RPGConsole.Graphical
     {
         public string name;
         public int id;
-        public List<GUIOption> guiOptions = new List<GUIOption>();
 
         bool loadedScene = false;
 
@@ -29,28 +25,12 @@ namespace RPGConsole.Graphical
 
         public virtual void LoadScene()
         {
-            foreach(GUIOption option in guiOptions)
-            {
-                option.Start();
-            }
         }
 
         bool keyboardOnly = true;
         bool debugGUI = false;
-        public virtual void UpdateScene(Camera2D cam)
+        public virtual void UpdateScene()
         {
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_P))
-            {
-                if(debugGUI == false)
-                {
-                    Program.unit.AddConsoleItem(new ConsoleItem(3, "Debug GUI mode set to true!"));
-                    debugGUI = true;
-                }else if (debugGUI)
-                {
-                    Program.unit.AddConsoleItem(new ConsoleItem(3, "Debug GUI mode set to false!"));
-                    debugGUI = false;
-                }
-            }
 
             if(loadedScene == false)
             {
